@@ -74,7 +74,7 @@ function handleModelSave() {
       break;
 
     case "editTicket":
-        editTicket(id, nameValue);
+      editTicket(id, nameValue);
       break;
   }
 
@@ -155,26 +155,6 @@ function deleteCol(colId) {
   board.columns = board.columns.filter((c) => c.id !== colId);
   renderBoardDetails(board);
 }
-
-
-function createTicket(id,nameValue){
-const newTicket = {
-    name:nameValue,
-    id:generateId("ticket"),
-}
-
-const board = boards.find(b => b.id === currentBoardId )
-
-if(!board) return
-
-const column = board.columns.find(c => c.id === id)
-
-
-column.tickets.push(newTicket)
-
-
-}
-
 
 function renderBoardDetails(board) {
   boardDetails.innerHTML = "";
@@ -257,18 +237,102 @@ function renderBoardDetails(board) {
     createTicket.classList.add("createTicketBtn");
     createTicket.textContent = "Add Ticket";
     createTicket.addEventListener("click", () => {
-        OpenModel({
-            title: "Create Column",
-            contextType: "createTicket",
-            contextId: "",
-          });
+      OpenModel({
+        title: "Create Ticket",
+        contextType: "createTicket",
+        contextId: column.id,
+      });
     });
 
     columnsEl.appendChild(createTicket);
-  columnsContainer.appendChild(columnsEl);
+    columnsContainer.appendChild(columnsEl);
 
+    const ticketsContainer = document.createElement("div");
+    ticketsContainer.classList.add("ticketsContainer");
+    column.tickets.forEach((ticket) => {
+      const ticketEl = document.createElement("div");
+      ticketEl.classList.add("ticket");
+
+      const ticketNameSpan = document.createElement("span");
+      ticketNameSpan.classList.add("ticketNameSpan");
+      ticketNameSpan.textContent = ticket.name;
+
+      const ticketButtons = document.createElement("div");
+      ticketButtons.classList.add("ticketButtons");
+
+      const editTicketBtn = document.createElement("button");
+      editTicketBtn.classList.add("editTicketBtn");
+      editTicketBtn.textContent = "✍️";
+      editTicketBtn.addEventListener("click", () => {
+        OpenModel({
+          title: "Edit Ticket",
+          contextType: "editTicket",
+          contextId: ticket.id,
+          defaultValue: ticket.name,
+        });
+      });
+
+      const deleteTicket = document.createElement("button");
+      deleteTicket.classList.add("deleteTicket");
+      deleteTicket.textContent = "❌";
+      deleteTicket.addEventListener("click", () => {
+        delTicket(ticket.id);
+      });
+
+      ticketButtons.appendChild(editTicketBtn);
+      ticketButtons.appendChild(deleteTicket);
+
+      ticketEl.appendChild(ticketNameSpan);
+      ticketEl.appendChild(ticketButtons);
+
+      ticketsContainer.appendChild(ticketEl);
+      columnsEl.appendChild(ticketsContainer);
+    });
   });
 
-  boardDetails.appendChild(columnsContainer)
+  boardDetails.appendChild(columnsContainer);
+}
 
+function delTicket(ticketId) {
+  const board = boards.find((b) => b.id === currentBoardId);
+  if (!board) return;
+
+  for (const col of board.columns) {
+    col.tickets = col.tickets.filter((t) => t.id !== ticketId);
+  }
+  renderBoardDetails(board);
+}
+
+//tickets
+
+function createTicket(colID, nameValue) {
+  const board = boards.find((b) => b.id === currentBoardId);
+
+  if (!board) return;
+
+  const column = board.columns.find((c) => c.id === colID);
+
+  if (!column) return;
+
+  column.tickets.push({
+    id: generateId("ticket"),
+    name: nameValue,
+  });
+  renderBoardDetails(board);
+}
+
+function editTicket(ticketId, nameValue) {
+  const board = boards.find((b) => b.id === currentBoardId);
+  if (!board) return;
+
+  for (const col of board.columns) {
+    const ticket = col.tickets.find((t) => t.id === ticketId);
+
+    if (ticket) {
+      ticket.name = nameValue;
+      break;
+    }
+  }
+
+  renderBoardDetails(board);
 }
