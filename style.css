@@ -38,7 +38,9 @@ body {
   border-radius: 4px;
   margin-bottom: 20px;
 }
-#createBoardBtn:hover {
+#createBoardBtn:hover,
+.addColumnBtn:hover,
+.saveBtn:hover {
   background-color: #04865f;
 }
 
@@ -61,3 +63,159 @@ body {
 #boardDetails > p {
   color: #999;
 }
+
+.modelOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #00000093;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modelContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  width: 300px;
+  max-width: 80%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.modelContent > h3 {
+  margin: 0;
+}
+
+.modelContent > input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.modelButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.saveBtn {
+  background-color: #06aa7b;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 14px;
+}
+
+.cancelBtn {
+  background-color: #ccc;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 14px;
+}
+
+.cancelBtn:hover {
+  background-color: #bbb;
+}
+
+#boardList {
+  list-style: none;
+  padding: 0;
+}
+
+#boardList > li {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #3b82f6;
+  transition: background-color 0.2s;
+}
+
+#boardList > li:hover {
+  background-color: #1f57a8;
+}
+
+#boardList > .active {
+  background-color: #0f3c78;
+}
+
+.addColumnBtn {
+  padding: 8px 12px;
+  background-color: #06aa7b;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.boardTitleArea {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.boardTitleArea > h2 {
+  margin-right: 20px;
+}
+
+.columnsContainer {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.column {
+  background-color: #e9ecef;
+  border-radius: 5px;
+  padding: 10px;
+  min-width: 220px;
+  height: 500px;
+  overflow-y: hidden;
+  position: relative;
+}
+
+.columnsheader {
+  display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 8px;
+
+}
+
+.columnsheader > h3{
+margin: 0;
+font-size: 16px;
+
+}
+
+.colbuttons{
+    display: flex;
+    gap: 6px;
+
+}
+
+.editColBtn, .deleteColBtn{
+background: none;
+border: none;
+cursor: pointer;
+color: #333;
+font-size: 14px;
+}
+
+.createTicketBtn{
+    background-color: #d0a62a;
+    border: none;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+

@@ -10,7 +10,7 @@
     <div id="app">
       <div id="sidebar">
         <h2>Boards</h2>
-        <button id="createBoardBtn" onClick="start()">Create Board</button>
+        <button id="createBoardBtn">Create Board</button>
         <ul id="boardList"></ul>
       </div>
       <div id="main">
@@ -19,7 +19,20 @@
         </div>
       </div>
     </div>
-    
+    <div class="modelOverlay" id="modelOverlay">
+        <div class="modelContent" id="modelContent">
+            <h3 id="modelTitle"></h3>
+            <input type="text" id="modelInput" placeholder="Enter Name"/>
+            <input type="hidden" id="modelContextType"/>
+            <input type="hidden" id="modelContextId"/>
+            <div class="modelButtons">
+                <button class="saveBtn" id="modelSaveBtn">Save</button>
+                <button class="cancelBtn" id="modelCancelBtn">Cancel</button>
+
+            </div>
+
+        </div>
+    </div>
   </body>
   <script src="index.js"></script>
   </html>
