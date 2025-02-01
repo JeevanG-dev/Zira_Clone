@@ -245,13 +245,31 @@ function renderBoardDetails(board) {
     });
 
     columnsEl.appendChild(createTicket);
+
+    
+    columnsEl.addEventListener("dragover", dragOverHandler)
+    columnsEl.addEventListener("drop", (e)=>{
+      dropHander(e,column,board)
+    })
+
     columnsContainer.appendChild(columnsEl);
 
     const ticketsContainer = document.createElement("div");
     ticketsContainer.classList.add("ticketsContainer");
+
+
+
     column.tickets.forEach((ticket) => {
       const ticketEl = document.createElement("div");
       ticketEl.classList.add("ticket");
+      ticketEl.draggable = true;
+
+      ticketEl.addEventListener("dragstart", (e)=>{
+        dragStartHandler(e,ticket,column,board)
+      })
+
+      ticketEl.addEventListener("dragend", dragEndHandler)
+
 
       const ticketNameSpan = document.createElement("span");
       ticketNameSpan.classList.add("ticketNameSpan");
@@ -335,4 +353,39 @@ function editTicket(ticketId, nameValue) {
   }
 
   renderBoardDetails(board);
+}
+ 
+let dragTicketData = null;
+
+function dragStartHandler(e,ticket,fromColumn,fromBoard){
+
+  dragTicketData = {ticket,fromColumn,fromBoard};
+
+
+
+}
+
+function dragEndHandler(e){
+ 
+  dragTicketData = null;
+
+
+}
+
+function dragOverHandler(e){
+  e.preventDefault()
+
+
+}
+function dropHander(e,toColumn){
+  e.preventDefault()
+  if(!dragTicketData) return;
+
+  const {ticket,fromColumn,fromBoard} = dragTicketData;
+
+  fromColumn.tickets = fromColumn.tickets.filter(t => t.id !== ticket.id);
+  toColumn.tickets.push(ticket);
+  renderBoardDetails(fromBoard);
+
+
 }
